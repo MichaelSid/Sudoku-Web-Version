@@ -17,3 +17,14 @@ body {
 	font-family: Arial;
 }
 
+.incorrect {
+  background-color: yellow;
+}
+
+.value-provided {
+  background-color: #DDD;
+}
+
+#flash {
+  margin: 20px;
+}
