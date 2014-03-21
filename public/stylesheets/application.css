@@ -2,6 +2,10 @@ div.box, div.cell {
 	display: inline-block;
 }
 
+div.box {
+	outline: 3px solid red;
+}
+
 .cell input {
 	width: 30px;
 	height: 30px;
