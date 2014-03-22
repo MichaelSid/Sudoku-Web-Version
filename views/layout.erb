@@ -4,7 +4,17 @@
 	<!--link to the CSS stylesheet -->
 	<link href="/stylesheets/application.css" rel="stylesheet" type="text/css">
 </head>
+<!-- <button name='restart' value='true'> Reset Game </button> -->
 <body>
 	<%= yield %>
+	<h1>Start over?</h1>
+		<form action='/newgame' method='post'>
+			<button name='difficulty' value='easy'> Easy </button>
+			<button name='difficulty' value='medium'> Medium </button>
+			<button name='difficulty' value='hard'> Hard </button>
+		</form>
+		<form action='/solution' method='get'>
+			<button> I Give Up! </button>
+		</form>
 </body>
 </html>

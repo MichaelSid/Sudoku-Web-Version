@@ -1,3 +1,5 @@
+
+
 div.box, div.cell {
 	display: inline-block;
 }
@@ -19,6 +21,13 @@ div.box {
 body {
 	text-align: center;
 	font-family: Arial;
+	background-color: yellow;
+}
+
+button {
+    color: #333;
+    box-shadow: -3px 3px orange, -2px 2px orange, -1px 1px orange;
+    border: 1px solid orange;
 }
 
 .incorrect {
@@ -31,4 +40,8 @@ body {
 
 #flash {
   margin: 20px;
+}
+
+.solution, .save {
+	margin-bottom: 10px
 }

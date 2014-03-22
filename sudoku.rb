@@ -23,14 +23,19 @@ def random_sudoku
 end
 
 #this method removes some digits from the solution to create a puzzle
-def puzzle(sudoku)
-	sudoku.map {|v| rand < 0.3 ? 0 : v }
+def puzzle(sudoku, difficulty)
+	sudoku = sudoku.map {|v| rand < 0.3 ? 0 : v } if difficulty == "easy"
+	sudoku = sudoku.map {|v| rand < 0.5 ? 0 : v } if difficulty == "medium"
+	sudoku = sudoku.map {|v| rand < 0.7 ? 0 : v } if difficulty == "hard"
+
+	sudoku
 end
 	
 
 get '/' do
+	session[:difficulty] ||= "easy"
 	prepare_to_check_solution
-	generate_new_puzzle_if_necessary
+	generate_new_puzzle_if_necessary(session[:difficulty])
 	@current_solution = session[:current_solution] || session[:puzzle]
 	@solution = session[:solution]
 	@puzzle = session[:puzzle]
@@ -38,15 +43,19 @@ get '/' do
 end
 
 get '/solution' do
-	@puzzle = session[:solution]
+	redirect to('/') if !session[:solution]
+	@puzzle = []
+	@solution = []
+	@current_solution = session[:solution]
 	erb :index
 end
 
-def generate_new_puzzle_if_necessary
+def generate_new_puzzle_if_necessary(difficulty)
 	return if session[:current_solution]
 	sudoku = random_sudoku
 	session[:solution] = sudoku
-	session[:puzzle] = puzzle(sudoku)
+	puzzle = puzzle(sudoku, difficulty)
+	session[:puzzle] = puzzle
 	session[:current_solution] = session[:puzzle]
 end
 
@@ -58,9 +67,21 @@ post '/' do
 	#so we need to transform it.
 	cells = box_order_to_row_order(params["cell"])
 	session[:current_solution] = cells.map {|value| value.to_i}.join
-	session[:check_solution] = true
+	session[:check_solution] = true unless params['save'] == 'true'
 	redirect to("/")
 end
+
+post '/newgame' do
+  session[:current_solution] = nil
+  session[:difficulty] = params[:difficulty]
+  redirect to('/')
+end
+
+post '/restart' do
+	session[:current_solution] = session[:puzzle]
+	redirect to('/')
+end
+
 
 def prepare_to_check_solution
 	@check_solution = session[:check_solution]

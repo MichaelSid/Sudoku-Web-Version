@@ -1,14 +1,23 @@
 
 
 
-<h1>Life is too short for playing Sudoku</h1>
+<h1>Sudoku<br>
+Yellow Overdose Edition</h1>
 <div id="flash">
   <%= flash[:notice] %>
 </div>
 <div id="sudoku">
+<form action='/restart' method='post'>
+<button> Reset Game </button>
+</form>
 	<form action="/" method="post">
 		<!-- all boxes, rows and cells -->
+		<div class='save'>
+			<button name='save' value='true'>Save Game</button>
+		</div>
+		<div class='solution'>
 		<button>Check solution</button>
+		</div>
 		<!--one div for each row -->
 		<% 3.times do |row| %>
 			<div class='row'>
